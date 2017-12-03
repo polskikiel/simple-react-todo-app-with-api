@@ -14,5 +14,8 @@
     "build": "react-scripts build",
     "test": "echo 'No tests.'; exit 0;",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "surge": "^0.19.0"
   }
 }
