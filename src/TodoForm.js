@@ -3,17 +3,12 @@ import React, { Component } from 'react'
 class TodoFrom extends Component {
   constructor () {
     super()
-    this.state = {
-      text: ''
-    }
-    this.todoText = this.todoText.bind(this)
+    this.changeInput = this.changeInput.bind(this)
     this.submit = this.submit.bind(this)
   }
 
-  todoText (e) {
-    this.setState({
-      text: e.target.value
-    })
+  changeInput (e) {
+    this.props.changeInput(e.target.value)
   }
 
   submit (e) {
@@ -25,11 +20,11 @@ class TodoFrom extends Component {
     return (
       <form onSubmit={this.submit}>
         <input type="text"
-               value={this.state.text}
+               value={this.props.text}
                ref={(input) => {
                  this.inputText = input
                }}
-               onChange={this.todoText}/>
+               onChange={this.changeInput}/>
       </form>
     )
   }

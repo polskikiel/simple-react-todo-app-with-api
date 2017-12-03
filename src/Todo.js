@@ -9,9 +9,11 @@ class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      data: []
+      data: [],
+      text: ''
     }
     this.apiUrl = '//5a23ef1b3a6dd70012db4ed8.mockapi.io/todo/'
+    this.changeInput = this.changeInput.bind(this)
     this.addTodo = this.addTodo.bind(this)
     this.completedTodo = this.completedTodo.bind(this)
     this.removeTodo = this.removeTodo.bind(this)
@@ -25,17 +27,25 @@ class App extends Component {
     })
   }
 
+  changeInput (val) {
+    this.setState({
+      text: val
+    })
+  }
+
   addTodo (input) {
     const newTodo = {
       text: input.value
     }
-    input.setAttribute('disabled', true)
+    input.setAttribute('disabled', '')
     http.post(this.apiUrl, newTodo).then(res => {
-      this.setState(prevState => ({
-        data: prevState.data.concat(res.data)
-      }))
+      if (res.status === 201) {
+        this.setState(prevState => ({
+          data: prevState.data.concat(res.data),
+          text: ''
+        }))
+      }
       input.removeAttribute('disabled')
-      input.value = ''
     })
   }
 
@@ -77,11 +87,16 @@ class App extends Component {
   render () {
     return (
       <div>
-        <TodoHeader dataCount={this.state.data.length}/>
-        <TodoForm addTodo={this.addTodo}/>
-        <TodoList removeTodo={this.removeTodo}
-                  completedTodo={this.completedTodo}
-                  list={this.state.data}/>
+        <TodoHeader
+          dataCount={this.state.data.length}/>
+        <TodoForm
+          text={this.state.text}
+          changeInput={this.changeInput}
+          addTodo={this.addTodo}/>
+        <TodoList
+          removeTodo={this.removeTodo}
+          completedTodo={this.completedTodo}
+          list={this.state.data}/>
       </div>
     )
   }
