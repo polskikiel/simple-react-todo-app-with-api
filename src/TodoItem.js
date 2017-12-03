@@ -4,15 +4,15 @@ class TodoItem extends Component {
   constructor () {
     super()
     this.remove = this.remove.bind(this)
-    this.completed = this.completed.bind(this)
+    this.change = this.change.bind(this)
   }
 
   remove () {
     this.props.removeTodo(this.props.todo)
   }
 
-  completed () {
-    this.props.completedTodo(this.props.todo)
+  change () {
+    this.props.changeTodo(this.props.todo)
   }
 
   render () {
@@ -22,7 +22,7 @@ class TodoItem extends Component {
         <label>
           <input checked={status}
                  type="checkbox"
-                 onChange={this.completed}/>
+                 onChange={this.change}/>
           <span>{text}</span>
           <button type="button"
                   onClick={this.remove}>X

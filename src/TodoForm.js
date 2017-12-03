@@ -1,30 +1,51 @@
 import React, { Component } from 'react'
+import http from 'axios'
 
 class TodoFrom extends Component {
   constructor () {
     super()
+    this.state = {
+      text: ''
+    }
     this.changeInput = this.changeInput.bind(this)
-    this.submit = this.submit.bind(this)
+    this.addTodo = this.addTodo.bind(this)
   }
 
   changeInput (e) {
-    this.props.changeInput(e.target.value)
+    this.setState({
+      text: e.target.value
+    })
   }
 
-  submit (e) {
+  addTodo (e) {
     e.preventDefault()
-    this.props.addTodo(this.inputText)
+    const newTodo = {
+      text: this.state.text
+    }
+    this.fromInput.setAttribute('disabled', '')
+    http.post(window.apiUrl, newTodo).then(res => {
+      if (res.status === 201) {
+        this.setState({
+          text: ''
+        })
+        this.props.changeData(
+          this.props.data.concat(res.data)
+        )
+      }
+      this.fromInput.removeAttribute('disabled')
+    })
   }
 
   render () {
     return (
-      <form onSubmit={this.submit}>
+      <form onSubmit={this.addTodo}>
         <input type="text"
-               value={this.props.text}
+               value={this.state.text}
+               onChange={this.changeInput}
                ref={(input) => {
-                 this.inputText = input
+                 this.fromInput = input
                }}
-               onChange={this.changeInput}/>
+        />
       </form>
     )
   }

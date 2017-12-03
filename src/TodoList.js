@@ -3,11 +3,11 @@ import TodoItem from './TodoItem'
 
 class TodoList extends Component {
   render () {
-    const todos = this.props.list.map(todo => {
+    const todos = this.props.data.map(todo => {
       return <TodoItem
         key={todo.id}
         todo={todo}
-        completedTodo={this.props.completedTodo}
+        changeTodo={this.props.changeTodo}
         removeTodo={this.props.removeTodo}/>
     })
     return <ul className="ItemList">{todos}</ul>
